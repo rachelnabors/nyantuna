@@ -1,0 +1,180 @@
+@import "compass/reset";
+@import "compass";
+@import "animation";
+
+@import "sprites/*.png";
+
+%ir {
+	text-indent: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.pane {
+	height: 100%; width: 100%;
+	position: absolute;
+	overflow: hidden;
+}
+
+.tuna {
+	@extend %ir;
+	@include sprites-sprite(tuna);
+	@include animation(running steps(3) .35s infinite forwards);
+	width: 446px; height: 300px;
+	position: absolute;
+	bottom: 3em; left: 50%;
+	margin-left: -223px;
+  	@include translateZ(0);
+}
+
+.halo {
+	@include sprites-sprite(blast2);
+	@include animation(blasting steps(2) .5s infinite forwards);
+	width: 700px; height: 500px;
+	position: absolute;
+	bottom: -3em; left: 50%;	
+	margin-left: -350px;
+}
+
+.blast {
+	background: #fff;
+	position: absolute; bottom: 100px; left: 0;
+	width: 50%; height: 150px;
+}
+
+@include keyframes(running) {
+  0% {
+  	background-position: 0 0;
+  }
+  100% {
+  	background-position: 0 -900px;
+  }
+}
+
+@include keyframes(blasting) {
+  0% {
+  	background-position: 0 -900px;
+  }
+  100% {
+  	background-position: 0 -1900px;
+  }
+}
+
+.popcorn {
+	position: absolute;
+	top: 0; right: -100px;
+	@include animation(rolling linear);
+	@include animation-fill-mode(forwards);
+	@include animation-iteration-count(infinite);
+	z-index: 10;
+	&:nth-child(2n+1){ //odd
+		@include rotateZ(40deg);
+		@include animation-name(rolling-up);
+		top: 15%;
+		right: -30em;
+		margin-top: 2em;
+	}
+	&:nth-child(2n){ //even
+		top: 25%;
+		right: -4em;
+	}
+	&:nth-child(3n){ 
+		top: 55%;
+	}
+	&:nth-child(3n+1){ 
+		top: 85%;
+	}
+	&:nth-child(4n+1){ //1/5/9
+		@include rotateZ(130deg);
+		top: 45%;
+		right: -2em;
+	}
+	&:nth-child(4n){ //4/8/12
+		@include rotateZ(-230deg);
+		top: 75%;
+		right: -8em;
+	}
+
+	.background & {
+		@include animation-name(bg_rolling-up);
+		@include create-transform(
+			$scale-x: .5,
+			$scale-y: .5,
+			$rotate-z: initial
+		);
+	}
+}
+
+@include keyframes(rolling) {
+  100% {
+  	@include rotateZ(360deg);
+  	right: 100%;
+  }
+}
+
+@include keyframes(rolling-up) {
+  100% {
+  	@include rotateZ(-360deg);
+  	right: 120%;
+  }
+}
+
+@include keyframes(bg_rolling-up) {
+  	100% {
+		@include create-transform(
+			$scale-x: .5,
+			$scale-y: .5,
+			$rotate-z: -360deg
+		);
+	  	right: 100%;
+  	}
+}
+
+.popcorn-jumbo { 
+	@extend %ir;
+	@include sprites-sprite(popcorn_jumbo);
+	width: 81px; height: 67px;
+	@include animation-duration(5s);
+	margin-right: 50px;
+	.background & {
+		@include animation-duration(9s, 9s);
+	}
+}
+
+.popcorn-medium { 
+	@extend %ir;
+	@include sprites-sprite(popcorn_medium);
+	width: 52px; height: 45px;
+	@include animation-duration(4s);
+	margin-right: 150px;
+	.background & {
+		@include animation-duration(7s, 7s);
+	}
+}
+
+.popcorn-medium2 { 
+	@extend %ir;
+	@include sprites-sprite(popcorn_medium2);
+	width: 50px; height: 55px;
+	@include animation-duration(3s);
+	margin-right: 100px;
+	.background & {
+		@include animation-duration(7s, 7s);
+	}
+}
+
+.popcorn-small { 
+	@extend %ir;
+	@include sprites-sprite(popcorn_small);
+	width: 35px; height: 29px;
+	@include animation-duration(2s);
+	margin-right: 130px;
+	.background & {
+		@include animation-duration(6s, 6s);
+	}
+}
+
+body {
+	background: #000;
+	@include perspective(200);
+}
