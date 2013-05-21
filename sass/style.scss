@@ -36,16 +36,10 @@
 	margin-left: -350px;
 }
 
-.midground {
-	@include perspective(200);
-	@include perspective-origin(24% 50%);
-}
-
 .blast {
 	background: #fff;
-	position: absolute; bottom: 4em; left: 0;
-	width: 50%; height: 200px;
-	@include rotateY(10deg);
+	position: absolute; bottom: 100px; left: 0;
+	width: 50%; height: 150px;
 }
 
 @include keyframes(running) {
@@ -72,6 +66,7 @@
 	@include animation(rolling linear);
 	@include animation-fill-mode(forwards);
 	@include animation-iteration-count(infinite);
+	z-index: 10;
 	&:nth-child(2n+1){ //odd
 		@include rotateZ(40deg);
 		@include animation-name(rolling-up);
