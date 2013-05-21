@@ -1,0 +1,130 @@
+<html>
+<head>
+  <title>NyanTuna</title>
+  <link href="style.css?1" media="screen, projection" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div class="background pane">
+  <div class="popcorn-jumbo popcorn"></div>
+  <div class="popcorn-small popcorn"></div>
+  <div class="popcorn-medium popcorn"></div>
+  <div class="popcorn-medium2 popcorn"></div>
+  <div class="popcorn-small popcorn"></div>
+</div>
+<div class="midground pane">
+  <div class="blast"></div>
+  <div class="halo"></div>
+  <div class="tuna"></div>
+  <div class="popcorn-medium popcorn"></div>
+  <div class="popcorn-small popcorn"></div>
+  <div class="popcorn-medium popcorn"></div>
+</div>
+<div class="foreground pane">
+  <div class="popcorn-medium popcorn"></div>
+  <div class="popcorn-jumbo popcorn"></div>
+  <div class="popcorn-medium popcorn"></div>
+  <div class="popcorn-medium2 popcorn"></div>
+  <div class="popcorn-small popcorn"></div>
+</div>
+<script type="text/javascript">
+
+  /* Oh hi there! I see you're peeking at my code. That's ok.
+     I've totally ripped this off from:
+     http://webcache.googleusercontent.com/search?q=cache:RnB3PJNKSkgJ:www.f1lt3r.com/w3caudio/web-audio-api/basic-examples/looping-sounds-without-gaps.html+&cd=1&hl=en&ct=clnk&gl=us
+
+     Reproduced here with some future-proofing and fall-backing from other sources as noted. I wanted to preserve the excellent commenting of the author's even though the site is hard to access.
+    
+     So without further ado!
+
+   * Looping Sounds Without Gaps
+   * Web Audio API
+   * http://www.w3.org/2011/audio/
+   */
+
+  function musicInit(){
+
+    /* Rachel: Added Future Proofin' from Simon's excellent Web Audio API: http://creativejs.com/resources/web-audio-api-getting-started/ */
+    if (typeof AudioContext == "function") { 
+
+      //In the future, all ways will be the queen's ways
+      context = new AudioContext();
+      webAudioPlayer();
+    
+    } else if (typeof webkitAudioContext == "function") { 
+    
+      // but for now they're just webkit's ways
+      context = new webkitAudioContext();
+      webAudioPlayer();
+    
+    } else {
+    
+      // Shoot, no Web Audio API support. 
+      // Looks like only HTML5 will do for browsers like IE and FF.
+      // It wil be gap-tastic.
+
+      var audio = document.createElement("audio");
+      audio.loop = true;
+      // mp3 for IE
+      if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg"))
+      {
+          audio.src = "nyancat-loop.mp3";
+          audio.play();
+      } else if (audio != null && audio.canPlayType && audio.canPlayType('audio/ogg; codecs="vorbis"')) {
+          // ogg for FF
+          audio.src = "nyancat-loop.ogg";
+          audio.play();
+      }
+    }
+
+    function webAudioPlayer(){
+
+      // Create a bufferSource object to store the audio data
+        var source  = context.createBufferSource()
+
+      // Create an XHR object to fetch the sound-file from the server
+        , request = new XMLHttpRequest();
+
+      // Make an EventListener to handle the sound-file after it has been loaded
+      request.addEventListener( 'load', function( e ){
+
+        // Beginning decoding the audio data from loaded sound-file ...
+        context.decodeAudioData( request.response, function( decoded_data ){
+
+          // Store the decoded buffer data in the source object
+          source.buffer = decoded_data;
+
+          // Connect the source node to the Web Audio destination node
+          source.connect( context.destination );
+
+          // Loop the playback of the source
+          source.loop = true;
+
+          // Play back the sound immediately
+          source.noteOn( 0 );
+
+        // Handle any decoding errors
+        }, function( e ){ console.log( e ); }
+
+        // End of decode handler
+        );
+
+      // End of Event Listener
+      }, false );
+
+      // Point the request to the sound-file that you want to play
+      request.open( 'GET', 'nyancat-loop.mp3', true );
+
+      // Set the XHR response-type to 'arraybuffer' to store binary data
+      request.responseType = "arraybuffer";
+
+      // Begin requesting the sound-file from the server
+      request.send();
+
+    // End of init() function
+    };
+  }
+  // Run when the DOM has finished loading
+  document.addEventListener( 'DOMContentLoaded', function(){ musicInit(); }, false );
+  </script>
+</body>
