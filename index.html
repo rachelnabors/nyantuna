@@ -34,7 +34,7 @@
      http://webcache.googleusercontent.com/search?q=cache:RnB3PJNKSkgJ:www.f1lt3r.com/w3caudio/web-audio-api/basic-examples/looping-sounds-without-gaps.html+&cd=1&hl=en&ct=clnk&gl=us
 
      Reproduced here with some future-proofing and fall-backing from other sources as noted. I wanted to preserve the excellent commenting of the author's even though the site is hard to access.
-    
+
      So without further ado!
 
    * Looping Sounds Without Gaps
@@ -45,21 +45,21 @@
   function musicInit(){
 
     /* Rachel: Added Future Proofin' from Simon's excellent Web Audio API: http://creativejs.com/resources/web-audio-api-getting-started/ */
-    if (typeof AudioContext == "function") { 
+    if (typeof AudioContext == "function") {
 
       //In the future, all ways will be the queen's ways
       context = new AudioContext();
       webAudioPlayer();
-    
-    } else if (typeof webkitAudioContext == "function") { 
-    
+
+    } else if (typeof webkitAudioContext == "function") {
+
       // but for now they're just webkit's ways
       context = new webkitAudioContext();
       webAudioPlayer();
-    
+
     } else {
-    
-      // Shoot, no Web Audio API support. 
+
+      // Shoot, no Web Audio API support.
       // Looks like only HTML5 will do for browsers like IE and FF.
       // It wil be gap-tastic.
 
@@ -94,8 +94,14 @@
           // Store the decoded buffer data in the source object
           source.buffer = decoded_data;
 
-          // Connect the source node to the Web Audio destination node
-          source.connect( context.destination );
+          // Create a gain node.
+          var gainNode = context.createGain();
+          // Connect the source to the gain node.
+          source.connect(gainNode);
+          // Reduce the volume.
+          gainNode.gain.value = 0.35;
+          // Connect the gain node to the destination.
+          gainNode.connect(context.destination);
 
           // Loop the playback of the source
           source.loop = true;
