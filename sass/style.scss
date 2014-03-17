@@ -1,6 +1,5 @@
-@import "compass/reset";
 @import "compass";
-@import "animation";
+@import "compass/reset";
 
 @import "sprites/*.png";
 
@@ -19,7 +18,7 @@
 .tuna {
 	@extend %ir;
 	@include sprites-sprite(tuna);
-	@include animation(running steps(3) .35s infinite forwards);
+	@include animation(runnery steps(3) .35s infinite forwards);
 	width: 446px; height: 300px;
 	position: absolute;
 	bottom: 3em; left: 50%;
@@ -32,7 +31,7 @@
 	@include animation(blasting steps(2) .5s infinite forwards);
 	width: 700px; height: 500px;
 	position: absolute;
-	bottom: -3em; left: 50%;	
+	bottom: -3em; left: 50%;
 	margin-left: -350px;
 }
 
@@ -42,21 +41,21 @@
 	width: 50%; height: 150px;
 }
 
-@include keyframes(running) {
+@include keyframes(runnery) {
   0% {
-  	background-position: 0 0;
+  	background-position: 0 -1196px;
   }
   100% {
-  	background-position: 0 -900px;
+  	background-position: 0 -2096px;
   }
 }
 
 @include keyframes(blasting) {
   0% {
-  	background-position: 0 -900px;
+  	background-position: 0 0;
   }
   100% {
-  	background-position: 0 -1900px;
+  	background-position: 0 -1000px;
   }
 }
 
@@ -78,10 +77,10 @@
 		top: 25%;
 		right: -4em;
 	}
-	&:nth-child(3n){ 
+	&:nth-child(3n){
 		top: 55%;
 	}
-	&:nth-child(3n+1){ 
+	&:nth-child(3n+1){
 		top: 85%;
 	}
 	&:nth-child(4n+1){ //1/5/9
@@ -130,7 +129,7 @@
   	}
 }
 
-.popcorn-jumbo { 
+.popcorn-jumbo {
 	@extend %ir;
 	@include sprites-sprite(popcorn_jumbo);
 	width: 81px; height: 67px;
@@ -141,7 +140,7 @@
 	}
 }
 
-.popcorn-medium { 
+.popcorn-medium {
 	@extend %ir;
 	@include sprites-sprite(popcorn_medium);
 	width: 52px; height: 45px;
@@ -152,7 +151,7 @@
 	}
 }
 
-.popcorn-medium2 { 
+.popcorn-medium2 {
 	@extend %ir;
 	@include sprites-sprite(popcorn_medium2);
 	width: 50px; height: 55px;
@@ -163,7 +162,7 @@
 	}
 }
 
-.popcorn-small { 
+.popcorn-small {
 	@extend %ir;
 	@include sprites-sprite(popcorn_small);
 	width: 35px; height: 29px;
